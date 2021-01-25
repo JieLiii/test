@@ -17,7 +17,7 @@ pipeline {
                 sh 'chmod -R 777 .'
                 sh 'pwd'
                 sh 'ls'
-                sh 'ls /usr/share/maven'
+                sh 'ls /usr/share/maven/conf'
                 script {
                     WORK_DIR = sh(returnStdout: true, script: 'pwd')
                     echo "${WORK_DIR}"
