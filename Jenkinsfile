@@ -14,7 +14,7 @@ pipeline {
             }
             steps {
                 sh 'mvn --version'
-                sh 'mvn clean package -U'
+                sh 'mvn clean package'
                 sh 'chmod -R 777 .'
                 sh 'pwd'
                 script {
