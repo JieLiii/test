@@ -24,8 +24,7 @@ pipeline {
         }
         stage('生产镜像') {
             steps {
-                sh 'docker login -u jecoolee registry.cn-hangzhou.aliyuncs.com'
-                sh 'jiezi00000'
+                sh 'docker login -u ${ALIYUN_REGISTRY_USER} -p ${ALIYUN_REGISTRY_PWD} ${ALIYUN_REGISTRY_ADDR}'
                 sh 'cd ${WORK_DIR}'
                 sh 'docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .'
                 sh 'docker images'
