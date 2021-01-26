@@ -19,12 +19,12 @@ pipeline {
                 sh 'pwd'
                 script {
                     WORK_DIR = sh(returnStdout: true, script: 'pwd')
-                    echo "${WORK_DIR}"
                 }
             }
         }
         stage('生产镜像') {
             steps {
+                echo "${WORK_DIR}"
                 sh 'docker build -f Dockerfile -t ${IMAGE_NAME}:${BUILD_NUMBER} ${WORK_DIR}'
                 sh 'docker images'
                 sh 'docker login -u jecoolee registry.cn-hangzhou.aliyuncs.com'
