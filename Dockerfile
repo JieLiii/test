@@ -1,0 +1,1 @@
+FROM registry.cn-hangzhou.aliyuncs.com/jackinjava/jre8:v1

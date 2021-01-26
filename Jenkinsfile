@@ -1,10 +1,11 @@
 pipeline {
     agent any
     environment {
-        WORK_DIR = ''
+        WORK_DIR = '' //项目文件位置
+        IMAGE_NAME = 'test'
     }
     stages {
-        stage('Build') {
+        stage('打包') {
             agent {
                 docker {
                     image 'maven:3.6.3-openjdk-8'
@@ -16,17 +17,21 @@ pipeline {
                 sh 'mvn clean package -U'
                 sh 'chmod -R 777 .'
                 sh 'pwd'
-                sh 'ls'
-                sh 'ls /usr/share/maven'
                 script {
                     WORK_DIR = sh(returnStdout: true, script: 'pwd')
                     echo "${WORK_DIR}"
                 }
             }
         }
-        stage('Test') {
+        stage('生产镜像') {
             steps {
-                echo 'Testing..'
+                sh 'docker build -f Dockerfile -t ${IMAGE_NAME}:${BUILD_NUMBER} ${WORK_DIR}'
+                sh 'docker images'
+                sh 'docker login -u jecoolee registry.cn-hangzhou.aliyuncs.com'
+                sh 'jiezi00000'
+                sh 'docker push ${IMAGE_NAME}:${BUILD_NUMBER}'
+                sh 'docker rmi ${IMAGE_NAME}:${BUILD_NUMBER}'
+                sh 'docker images'
             }
         }
         stage('Deploy') {
