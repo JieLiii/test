@@ -27,7 +27,7 @@ pipeline {
             steps {
                 sh "docker login -u ${ALIYUN_REGISTRY_USER} -p ${ALIYUN_REGISTRY_PWD} ${ALIYUN_REGISTRY_ADDR}"
                 echo "${WORK_DIR}"
-                sh "cd ${WORK_DIR}/target"
+                sh "cd ${WORK_DIR}"
                 sh "ls"
                 sh "pwd"
                 sh "docker build -t ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER} ."
