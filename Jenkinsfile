@@ -8,8 +8,8 @@ pipeline {
         stage('打包') {
             agent {
                 docker {
-                    image 'maven:3.6.3-openjdk-8'
-                    args '-v /usr/local/maven:/root/.m2 -u root --security-opt seccomp=unconfined'   //maven配置和缓存
+                    image "maven:3.6.3-openjdk-8"
+                    args "-v /usr/local/maven:/root/.m2 -u root --security-opt seccomp=unconfined"   //maven配置和缓存
                 }
             }
             steps {
@@ -24,15 +24,15 @@ pipeline {
         }
         stage('生产镜像') {
             steps {
-                sh 'docker login -u ${ALIYUN_REGISTRY_USER} -p ${ALIYUN_REGISTRY_PWD} ${ALIYUN_REGISTRY_ADDR}'
+                sh "docker login -u ${ALIYUN_REGISTRY_USER} -p ${ALIYUN_REGISTRY_PWD} ${ALIYUN_REGISTRY_ADDR}"
                 echo "${WORK_DIR}"
-                sh 'cd ${WORK_DIR}'
-                sh 'ls'
-                sh 'docker build -t ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER} .'
-                sh 'docker images'
+                sh "cd ${WORK_DIR}"
+                sh "pwd"
+                sh "docker build -t ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER} ."
+                sh "docker images"
                 //sh 'docker push ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER}'
-                sh 'docker rmi ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER}'
-                sh 'docker images'
+                sh "docker rmi ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER}"
+                sh "docker images"
             }
         }
         stage('Deploy') {
