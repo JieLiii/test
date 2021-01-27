@@ -28,9 +28,12 @@ pipeline {
         stage('生产镜像') {
             steps {
                 sh "docker login -u ${ALIYUN_REGISTRY_USER} -p ${ALIYUN_REGISTRY_PWD} ${ALIYUN_REGISTRY_ADDR}"
-                sh "cd ../"
+                script {
+                    WORK_DIR = sh(returnStdout: true, script: "pwd")
+                }
                 sh "ls"
-                sh "pwd"
+                sh "cp -f ../${JAR_NAME} ${WORK_DIR}"
+                sh "ls"
                 sh "docker build -t ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER} ."
                 sh "docker images"
                 //sh 'docker push ${ALIYUN_REGISTRY_ADDR}/jackinjava/${IMAGE_NAME}:${BUILD_NUMBER}'
