@@ -17,6 +17,7 @@ pipeline {
                 sh 'mvn clean package'
                 sh 'chmod -R 777 .'
                 sh 'pwd'
+                sh 'ls'
                 script {
                     WORK_DIR = sh(returnStdout: true, script: 'pwd')
                 }
